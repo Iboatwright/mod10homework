@@ -1,0 +1,54 @@
+Chapter 11 Programming Exercise 7. The Speed of Sound
+The following table shows the approximate speed of sound in air, water,
+and steel.
+
+    Medium      Speed
+    ------      -----
+    Air         1,100 feet per second
+    Water       4,900 feet per second
+    Steel       16,400 feet per second
+
+Design a program that displays a menu allowing the user to select air,
+water, or steel. After the user has made a selection, he or she should
+be asked to enter the number of seconds the sound will travel in the
+selected medium. The program should then display the distance the sound
+will travel.
+
+Pseudocode
+----------
+Module main()
+    // Local variables
+    Declare String mediums[3] = 'Air', 'Water', 'Steel'
+    Declare Integer speeds[3] = 1100, 4900, 16400
+
+    Declare Integer option = 0
+
+    While endProgram == 'no'
+        Declare Integer soundTime = 0
+        Declare Integer soundDistance = 0
+        // Function calls
+        Set option = Input '1) Air\n2) Water\n3) Steel\n\n' \
+                           'Please select the medium: >> '
+
+        Set soundTime = Input 'Please enter the number of seconds the' \
+                              'sound traveled: >> '
+
+        Set soundDistance = calcDistance(speeds[option - 1], soundTime)
+
+        displayInfo(medium[option - 1], soundTime, soundDistance)
+
+		Display “Do you want to end the program? Yes or no”
+		Input endProgram
+	End While
+End Module
+
+
+Function calcDistance(Integer speed, Integer time)
+    Return speed * time
+End Function
+
+
+Module displayInfo(String medium, Integer time, Integer distance)
+    Display "If sound vibrations were traveling for " + time + " through "
+            + medium + ". It would travel " + distance + " feet."
+End Module
