@@ -15,16 +15,30 @@ def main():
     meds = (('air',1100), ('water',4900), ('steel',16400))
     menuDesign = '{0:^4}1) {{0:<10}}\n{0:^4}2) {{1:<10}}\n' \
                  '{0:^4}3) {{2:<10}}\n{0:^4}0) {{3:<10}}\n'.format('')
-    option = -1
+    option, medium, time, distance = -1, 0, 0, 0
 
     # Displays an introduction to the program and describes what it does.
     fluffy_intro()
 
-    # The program will continue looping until the user sets
-    #   endProgram == 'yes' when prompted.
+    # The program will continue looping until the user selects 0.
     while option not in ['0']:
-        option = display_menu(menuDesign, *[x[0].capitalize() for x in vars],'Exit')
-        time = input()
+        # Get the user's menu selection and assign to the option variable.
+        option = display_menu(menuDesign, option,
+                             *[x[0].capitalize() for x in meds], 'Exit')
+        # Exit the while loop and end the program if the user selects 0.
+        if option == '0':
+            break
+
+        # Get user inputs.
+        medium = meds[int(option) - 1]
+        time = get_time()
+
+        # Calculate distance based on time.
+        distance = calc_distance(medium[1], time)
+
+        # Display results to the user.
+        display_results(medium[0], time, distance)
+
 
 # Displays an introduction to the program and describes what it does.
 def fluffy_intro():
@@ -35,6 +49,8 @@ def fluffy_intro():
           'time.')
     return None
 
+
+# Presents the user with a list of options and returns a valid selection.
 def display_menu(design, option=-1, *labels):
     print('Please select the medium or enter 0 to exit.\n')
     print(design.format(*labels))
@@ -46,3 +62,33 @@ def display_menu(design, option=-1, *labels):
         option = input("Please enter the number of your menu "
                        "selection.\n    >>> ")
     return option
+
+
+# get_time asks the user to enter a time value.  Once a valid integer is
+#   entered, it is returned to the calling module.
+def get_time(time=0):
+    print('\nPlease enter how many seconds the sound will travel.')
+    while True:
+        try:
+            time = int(input('  >>> '))
+            break
+        except ValueError:
+            print('Invalid entry. Try again.')
+    return time
+
+
+def calc_distance(medium, time):
+    return medium * time
+
+
+# display_results is passed values used in print statements to display
+#  the results of the program to the user.
+def display_results(medium, time, distance):
+    print('{4:_<60}\n\n{0}When passing through {1} for {2} seconds,\n'
+          '{0}{0}sound will travel {3} feet.'
+          '\n{4:_<60}\n'.format(' '*8, medium, time, distance,''))
+    return None
+
+
+# Call main program
+main()
